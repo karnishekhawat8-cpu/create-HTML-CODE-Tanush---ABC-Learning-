@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tanush - ABC Learning</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fde68a, #bfdbfe);
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e40af;
+    margin-bottom: 15px;
+}
+
+.card {
+    background: white;
+    max-width: 320px;
+    margin: auto;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.letter {
+    font-size: 90px;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.word {
+    font-size: 30px;
+    color: #16a34a;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin: 15px 0;
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* ✅ CREDIT ON LEFT SIDE */
+.credit {
+    position: fixed;
+    bottom: 8px;
+    left: 10px;
+    font-size: 12px;
+    color: #374151;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Tanush – ABC Learning</div>
+
+<div class="card">
+    <div class="letter" id="letter">A</div>
+    <div class="word" id="word">Apple</div>
+    <img id="image"
+         src="https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"
+         alt="Apple"
+         onerror="this.src='https://via.placeholder.com/200?text=Image'">
+    <br>
+    <button onclick="nextLetter()">Next ➡️</button>
+</div>
+
+<div class="credit">By Karni Shekhawat</div>
+
+<script>
+const alphabets = [
+  {l:"A", w:"Apple", img:"https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"},
+  {l:"B", w:"Ball", img:"https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png"},
+  {l:"C", w:"Cat", img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg"},
+  {l:"D", w:"Dog", img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Dog.jpg"},
+  {l:"E", w:"Elephant", img:"https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg"},
+  {l:"F", w:"Fish", img:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Goldfish3.jpg"},
+  {l:"G", w:"Grapes", img:"https://upload.wikimedia.org/wikipedia/commons/b/bb/Table_grapes_on_white.jpg"},
+  {l:"H", w:"Horse", img:"https://upload.wikimedia.org/wikipedia/commons/4/4b/Horse_closeup.jpg"},
+  {l:"I", w:"Ice Cream", img:"https://upload.wikimedia.org/wikipedia/commons/a/a5/Ice_Cream_dessert_02.jpg"},
+  {l:"J", w:"Jug", img:"https://upload.wikimedia.org/wikipedia/commons/6/63/Jug_metal.jpg"},
+  {l:"K", w:"Kite", img:"https://upload.wikimedia.org/wikipedia/commons/8/8e/Kite_flying.jpg"},
+  {l:"L", w:"Lion", img:"https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg"},
+  {l:"M", w:"Monkey", img:"https://upload.wikimedia.org/wikipedia/commons/4/43/Monkey_DRC.jpg"},
+  {l:"N", w:"Nest", img:"https://upload.wikimedia.org/wikipedia/commons/3/3c/Bird_nest.jpg"},
+  {l:"O", w:"Orange", img:"https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg"},
+  {l:"P", w:"Parrot", img:"https://upload.wikimedia.org/wikipedia/commons/2/21/Parrot_green.jpg"},
+  {l:"Q", w:"Queen", img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Queen_Elizabeth_II.jpg"},
+  {l:"R", w:"Rabbit", img:"https://upload.wikimedia.org/wikipedia/commons/7/70/Rabbit_in_montana.jpg"},
+  {l:"S", w:"Sun", img:"https://upload.wikimedia.org/wikipedia/commons/c/cf/Sun_white.jpg"},
+  {l:"T", w:"Tiger", img:"https://upload.wikimedia.org/wikipedia/commons/5/56/Tiger.50.jpg"},
+  {l:"U", w:"Umbrella", img:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Umbrella_simple.jpg"},
+  {l:"V", w:"Van", img:"https://upload.wikimedia.org/wikipedia/commons/f/f0/Van_blue.jpg"},
+  {l:"W", w:"Watch", img:"https://upload.wikimedia.org/wikipedia/commons/1/19/Wristwatch.jpg"},
+  {l:"X", w:"Xylophone", img:"https://upload.wikimedia.org/wikipedia/commons/2/2c/Xylophone.jpg"},
+  {l:"Y", w:"Yak", img:"https://upload.wikimedia.org/wikipedia/commons/7/73/Yak_in_Tibet.jpg"},
+  {l:"Z", w:"Zebra", img:"https://upload.wikimedia.org/wikipedia/commons/0/03/Zebra_Botswana.jpg"}
+];
+
+let index = 0;
+
+function speakText(letter, word) {
+  window.speechSynthesis.cancel();
+  const speech = new SpeechSynthesisUtterance(`${letter} for ${word}`);
+  speech.rate = 0.8;
+  speech.pitch = 1.1;
+  window.speechSynthesis.speak(speech);
+}
+
+function nextLetter() {
+  index = (index + 1) % alphabets.length;
+  letter.innerText = alphabets[index].l;
+  word.innerText = alphabets[index].w;
+  image.src = alphabets[index].img;
+  speakText(alphabets[index].l, alphabets[index].w);
+}
+
+window.onload = () => {
+  speakText(alphabets[0].l, alphabets[0].w);
+};
+</script>
+
+</body>
+</html>
